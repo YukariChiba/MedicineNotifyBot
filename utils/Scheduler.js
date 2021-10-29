@@ -16,8 +16,13 @@ function initSchedules(bot) {
     var schedulerItemList = [];
     schedule.details.forEach((scheduleItem) => {
       schedulerItemList.push(
-        cron.schedule(scheduleItem.interval, () =>
-          notifyTask(bot, schedule.uuid, scheduleItem)
+        cron.schedule(
+          scheduleItem.interval,
+          () => notifyTask(bot, schedule.uuid, scheduleItem),
+          {
+            scheduled: true,
+            timezone: "Asia/Hong_Kong",
+          }
         )
       );
     });
