@@ -6,14 +6,14 @@ function readTemplate(filename) {
 }
 
 function composeSchedulesInfo(item) {
-  let send_msg = readTemplate("msg.info");
+  let send_msg = readTemplate("info/header");
   send_msg = send_msg
     .replace("{title}", item.title)
     .replace("{subscribers}", item.subscribers.length);
   item.details.forEach((schedule, idx) => {
     send_msg =
       send_msg +
-      readTemplate("msg.info.interval")
+      readTemplate("info/interval")
         .replace("{interval}", schedule.interval)
         .replace("{index}", idx + 1);
     send_msg = send_msg + composeScheduleInfo(schedule.contents);
@@ -22,14 +22,14 @@ function composeSchedulesInfo(item) {
 }
 
 function composeSchedulesListInfo(schedulesList) {
-  let send_msg = readTemplate("msg.list.tpl").replace(
+  let send_msg = readTemplate("list/header").replace(
     "{count}",
     schedulesList.length
   );
   schedulesList.forEach((schedules, index) => {
     send_msg =
       send_msg +
-      readTemplate("msg.list.item.tpl")
+      readTemplate("list/item")
         .replace("{index}", index + 1)
         .replace("{title}", schedules.title)
         .replace("{uuid}", schedules.uuid);
@@ -40,8 +40,8 @@ function composeSchedulesListInfo(schedulesList) {
 function composeScheduleInfo(items) {
   let send_msg = "";
   items.forEach((content) => {
-    let content_msg = readTemplate("msg.part.tpl");
-    if (content.desc) content_msg = content_msg + readTemplate("msg.part.desc.tpl");
+    let content_msg = readTemplate("notify/part");
+    if (content.desc) content_msg = content_msg + readTemplate("notify/desc");
     content_msg = content_msg
       .replace("{name}", content.name)
       .replace("{amount}", content.amount)
@@ -52,11 +52,16 @@ function composeScheduleInfo(items) {
 }
 
 function sendNotification(to, item, bot) {
-  let send_msg = readTemplate("msg.tpl");
+  let send_msg = readTemplate("notify/header");
   send_msg = send_msg + composeScheduleInfo(item.contents);
   bot.telegram.sendMessage(to, send_msg, {
     parse_mode: "MarkdownV2",
   });
 }
 
-export { sendNotification, composeSchedulesInfo, composeSchedulesListInfo };
+export {
+  readTemplate,
+  sendNotification,
+  composeSchedulesInfo,
+  composeSchedulesListInfo,
+};

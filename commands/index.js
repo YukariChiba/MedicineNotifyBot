@@ -1,13 +1,22 @@
-import Subscribe from "./Subscribe.js";
-import Unubscribe from "./Unsubscribe.js";
-import Info from "./Info.js";
-import List from "./List.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
-var cmdList = [];
+const basename = path.basename(fileURLToPath(import.meta.url));
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+let cmdList = [];
 
-cmdList = cmdList.concat(Subscribe);
-cmdList = cmdList.concat(Unubscribe);
-cmdList = cmdList.concat(Info);
-cmdList = cmdList.concat(List);
+let moduleFiles = fs
+  .readdirSync(dirname)
+  .filter(
+    (file) =>
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+  );
+
+for (let moduleFile of moduleFiles) {
+  await import(path.join(dirname, moduleFile)).then((module) => {
+    cmdList = cmdList.concat(module.default);
+  });
+}
 
 export default cmdList;
