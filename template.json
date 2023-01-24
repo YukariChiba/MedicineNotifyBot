@@ -1,0 +1,1 @@
+{"title": "测试方案", "subscribers": [283338155], "details": [{"interval": "0 12 * * *", "contents": [{"name": "药丸", "amount": "1粒", "desc": "与肥宅快乐水一同服用。"}, {"name": "药片", "amount": "1/2片"}]}, {"interval": "*/5 * * * *", "contents": [{"name": "肥宅快乐水", "amount": "1瓶", "desc": "500 ml"}]}]}
