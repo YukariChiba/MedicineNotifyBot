@@ -38,7 +38,7 @@ class AlarmJobManager:
             },
             job_kwargs={
                 'trigger': 'cron',
-                'minute': '*',
+                'minute': '*/3',
             },
         )
 
