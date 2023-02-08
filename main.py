@@ -1,8 +1,9 @@
 import logging
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, Defaults
 from dotenv import load_dotenv
 import commands
+import pytz
 import os
 from utils.Cronjobs import jobManager
 from utils.Alarmjobs import alarmJobManager
@@ -20,7 +21,9 @@ if __name__ == '__main__':
     import logging.config
     # logging.config.fileConfig('logging.conf')
 
-    application = ApplicationBuilder().token(os.getenv("BOTTOKEN")).build()
+    defaults = Defaults(tzinfo=pytz.timezone('Asia/Hong_Kong'))
+
+    application = ApplicationBuilder().token(os.getenv("BOTTOKEN")).defaults(defaults).build()
 
     for command in commands.__all__:
         if command.enabled:

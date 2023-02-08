@@ -14,4 +14,4 @@ async def do(context):
     await sendMarkdownMsg(context, uid, formatAlarm(item, alarmJobManager.counter[alarm_id]), reply_markup=formatSuppressKeyboard(AlarmJobManager.calcAlarmID(uuid, idx, uid)))
     alarmJobManager.counter[alarm_id] = alarmJobManager.counter[alarm_id] + 1
     if alarmJobManager.counter[alarm_id] >= 7:
-        alarmJobManager.stopAlarm(uuid, idx, uid)
+        alarmJobManager.stopAlarm(alarm_id)
