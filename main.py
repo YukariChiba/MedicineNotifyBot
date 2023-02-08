@@ -21,9 +21,15 @@ if __name__ == '__main__':
     import logging.config
     # logging.config.fileConfig('logging.conf')
 
-    defaults = Defaults(tzinfo=pytz.timezone('Asia/Hong_Kong'))
+    defaults = Defaults(tzinfo=pytz.timezone(
+        os.getenv("TZ", "Asia/Hong_Kong")))
 
-    application = ApplicationBuilder().token(os.getenv("BOTTOKEN")).defaults(defaults).build()
+    if not os.getenv("BOTTOKEN"):
+        logging.error("Bot token not defined!")
+        exit(1)
+
+    application = ApplicationBuilder().token(
+        os.getenv("BOTTOKEN")).defaults(defaults).build()
 
     for command in commands.__all__:
         if command.enabled:

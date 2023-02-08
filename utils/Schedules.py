@@ -2,11 +2,13 @@ import json
 from uuid import uuid4
 import os
 import logging
+from pathlib import Path
 
 
 class ScheduleManager:
 
     def __init__(self):
+        Path("schedules").mkdir(parents=True, exist_ok=True)
         self.logger = logging.getLogger(__name__)
         self.logger.info('ScheduleManager initialized.')
         self.schedules = ScheduleManager.fsReadSchedules()
